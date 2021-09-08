@@ -1,12 +1,6 @@
 # include <math.h>
 #include "slink.h"
 
-//extern double b;
-//extern long int *in_ran1;
-//extern int n_ch;
-//extern double ***XYZ;
-//extern double box[3];
-//extern int n_m;
 
 void chain_init(Bead *bead, double b,long int *in_ran1, int n_ch, int n_m, double box[3] )
 {
@@ -87,7 +81,7 @@ for (k=0;k<3;k++) {
 			}	
 }
 	for (i=0;i<n_m*n_ch;i++) {
-//	fprintf(stdout,"Bead id=%d has chain index:%d\n",bead[i].index,bead[i].index_in_chain);
+
 	}
 	for (k=0;k<3;k++) { 
 		for (m=0;m<n_m;m++) {
