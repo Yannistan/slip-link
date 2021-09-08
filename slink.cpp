@@ -131,7 +131,7 @@ double **Ree0,***Rb0;
 double valtot,msd_tot,DRee_tot;
 double Ree2_tot,Rbmean_tot,P2_tot;
 int *num_SL;
-//FILE *slcoorfile,*coorfile,*oldcoor,*fslfile,*rousefile,*nslfile;
+
 int npairs,id;
 int j,k,l;
 int m,n;
@@ -159,20 +159,13 @@ output=1000;
 n_ch=100;
 n_m=12;
 zzz=n_ch*n_m/n_e;
-//zzz=2;
+
 printf("Status ok\n");
-/* sprintf(fName,"init_conf_%d.dat",zf);
-	initfile=fopen(fName,"r");
-	if (initfile==NULL)
-	{
-		printf("Can't open %s\n",fName);
-		exit(1);
-	}
-	fprintf(stdout,"Reading file %s\n",fName); */ 
+
 /* Initialization */
 num_SL=(int *)malloc(n_ch*sizeof(int ));
 destroy=(int *)malloc(zzz*sizeof(int ));
-//age_SL=(int *)malloc(zzz*sizeof(int ));
+
 endtoend=(double *)malloc(n_ch*sizeof(double ));
 Ree2=(double *)malloc(n_ch*sizeof(double ));
 DRee=(double *)malloc(n_ch*sizeof(double ));
@@ -186,44 +179,42 @@ tmax=maxstep*h1;
 npairs=zzz/2;
 istep=0;
 
-//fscanf(initfile,"%lf %lf %lf\n",&box[0],&box[1],&box[2]);
+
 /*Open output files used to print data */
-//initfile=fopen("init_conf.dat","w");
+
 end2endfile=fopen("end2end.dat","w");
 reefile=fopen("ree.dat","w");
 p2file=fopen("p2.dat","w");
 msdfile=fopen("msdcom.dat","w");
-//beadidfile=fopen("beadid.dat","w");  
-  //*Allocate memory */
-//COM=(double **)malloc(3*sizeof(double *));
+
 COM0=(double **)malloc(3*sizeof(double *));
-	for (k=0;k<3;k++) {
-//		COM[k]=(double *)malloc(n_ch*sizeof(double ));
-		COM0[k]=(double *)malloc(n_ch*sizeof(double ));
-		}
+for (k=0;k<3;k++) {
+
+	COM0[k]=(double *)malloc(n_ch*sizeof(double ));
+}
 Rb0=(double ***)malloc(3*sizeof(double **));
-//Rb=(double ***)malloc(3*sizeof(double **));
-	for (k=0;k<3;k++) {
-		Rb0[k]=(double **)malloc((n_m-1)*sizeof(double *));
-//		Rb[k]=(double **)malloc((n_m-1)*sizeof(double *));
-		for (j=0;j<(n_m-1);j++) {
-			Rb0[k][j]=(double *)malloc((n_ch)*sizeof(double ));
-//			Rb[k][j]=(double *)malloc((n_ch)*sizeof(double ));
-		}
-	}		
-    Ree0=(double **)malloc(3*sizeof(double *));
-    //Ree=(double **)malloc(3*sizeof(double *));
-    for (i=0;i<3;i++) {
-//	Ree[i]=(double *)malloc(n_ch*sizeof(double ));	
+
+for (k=0;k<3;k++) {
+	Rb0[k]=(double **)malloc((n_m-1)*sizeof(double *));
+
+	for (j=0;j<(n_m-1);j++) {
+		Rb0[k][j]=(double *)malloc((n_ch)*sizeof(double ));
+
+	}
+}		
+Ree0=(double **)malloc(3*sizeof(double *));
+
+for (i=0;i<3;i++) {
+
 	Ree0[i]=(double *)malloc(n_ch*sizeof(double ));	
+}
+XYZ0=(double ***)malloc(3*sizeof(double **));
+for(k=0;k<3;k++) {
+    XYZ0[k]=(double **)malloc(n_m*sizeof(double *));
+    for (j=0;j<n_m;j++) {
+	XYZ0[k][j]=(double *)malloc(n_ch*sizeof(double ));
     }
-    XYZ0=(double ***)malloc(3*sizeof(double **));
-    for(k=0;k<3;k++) {
-    	XYZ0[k]=(double **)malloc(n_m*sizeof(double *));
-    	for (j=0;j<n_m;j++) {
-		XYZ0[k][j]=(double *)malloc(n_ch*sizeof(double ));
-        }
-    }
+}
 bead=(struct Bead*)malloc((n_ch*n_m)*sizeof(struct Bead));
 sl=(struct SlipLink*)malloc(zzz*sizeof(struct SlipLink));
 
@@ -233,26 +224,23 @@ box[0]=exp(1.0/3.0*log(vol));
 box[1]=box[0];
 box[2]=box[0];
 initfile=fopen("init_conf.dat","w"); 
-//
-//inputfile=fopen("input.dat","w");
-	chain_init(bead, b,in_ran1,n_ch,n_m, box);
-	id=-1;
-  	for (m=0;m<n_ch;m++) {
-		for (l=0;l<n_m;l++) {
+
+chain_init(bead, b,in_ran1,n_ch,n_m, box);
+id=-1;
+for (m=0;m<n_ch;m++) {
+	for (l=0;l<n_m;l++) {
 		id++;
 		fprintf(initfile,"%lf %lf %lf\n",bead[id].XYZ[0],bead[id].XYZ[1],bead[id].XYZ[2]); 
-		}
+	}
 	}  
 	for (id=0;id<(n_ch*n_m);id++) {
 		fscanf(initfile,"%lf %lf %lf\n",&bead[id].XYZ[0],&bead[id].XYZ[1],&bead[id].XYZ[2]);
-	//	fprintf(inputfile,"%lf %lf %lf\n",bead[id].XYZ[0],bead[id].XYZ[1],bead[id].XYZ[2]);
 	}  
 fclose(initfile);
 
 
-//fclose(inputfile);
+
 /* Initialize bead map */
-// for (i=0;i<n_m*n_ch;i++) g_bead_index[i]=i;
 
 /* Permutate the elements of the map */
 
@@ -270,7 +258,6 @@ for (i=0;i<n_m*n_ch;i++)
 {
 	assert( bead[i].index>=0 && bead[i].index < (n_m*n_ch) );
 	g_bead_index[ bead[i].index] = i;
-//	fprintf(beadidfile,"i=%d, bead[i].index=%d, g_bead_index[bead[i].index]=%d \n",i,bead[i].index, g_bead_index[bead[i].index]);
 }
 //fclose(beadidfile);
 
@@ -278,8 +265,6 @@ for (i=0;i<n_m*n_ch;i++) { assert( g_bead_index[i] != -1);  }
 
 sl_init(sl,bead, b,Ns,zzz,n_e,n_ch, n_m, in_ran1, num_SL);
 
-
-//fclose(inputfile);
 /* Calculate the radius of gyration */
 Rgir2=(n_m)*(b*b)/6.0;
 
@@ -317,11 +302,11 @@ for (j=0;j<zzz;j++) destroy[j]=0;
 
 /* Loop over polymer monomers */
 /* Store position from previous timestep */
-        for (id=0;id<n_m*n_ch;id++) {
-            	bead[id].XYZold[0]=bead[id].XYZ[0]; 
-            	bead[id].XYZold[1]=bead[id].XYZ[1]; 
-                bead[id].XYZold[2]=bead[id].XYZ[2];
-            }
+for (id=0;id<n_m*n_ch;id++) {
+          bead[id].XYZold[0]=bead[id].XYZ[0]; 
+          bead[id].XYZold[1]=bead[id].XYZ[1]; 
+          bead[id].XYZold[2]=bead[id].XYZ[2];
+}
 /* Calculation of Rouse forces */
 		force_rouse(bead,b,kBT,n_ch, n_m, istep);
 /* Calculation of slip-link forces */
@@ -349,14 +334,14 @@ for (j=0;j<zzz;j++) destroy[j]=0;
 /* Write data to output files */
 
 for (j=0;j<n_ch;j++) {
-valtot+=endtoend[j];
-DRee_tot+=DRee[j];
-Ree2_tot+=Ree2[j];
-Rbmean_tot+=Rbmean[j];
-P2_tot+=P2[j];
-msd_tot+=MSD[j];
+	valtot+=endtoend[j];
+	DRee_tot+=DRee[j];
+	Ree2_tot+=Ree2[j];
+	Rbmean_tot+=Rbmean[j];
+	P2_tot+=P2[j];
+	msd_tot+=MSD[j];
 }
-	if (istep%output==0) {
+if (istep%output==0) {
 	fprintf(end2endfile,"%d %lf\n",istep,valtot/(double) (n_ch));
 	fprintf(reefile,"%lf %lf %lf\n",istep*h1,DRee_tot/(double) n_ch,Ree2_tot/(double) (n_ch));
 	fprintf(p2file,"%lf %lf %lf\n",istep*h1,P2_tot/((double) (n_ch))/((double) (n_m-1)),Rbmean_tot/((double) (n_ch))/((double) (n_m-1)));
@@ -372,15 +357,12 @@ fclose(msdfile);
 	free(Ree0);
 for (k=0;k<3;k++) {
 	for (m=0;m<(n_m-1);m++) {
-	//	free(Rb[k][m]);
 		free(Rb0[k][m]);
 	}
-//	free(Rb[k]);
 	free(Rb0[k]);
 	}
-//	free(Rb);
 	free(Rb0); 
-//printf("Status 3 ok\n");
+
 	free(num_SL);
 	free(in_ran1);
 	free(endtoend);
@@ -390,7 +372,6 @@ for (k=0;k<3;k++) {
 	free(P2);
 	free(Rbmean);
 	free(MSD);
-//	free(diff);
 return 0;
 } 
 
