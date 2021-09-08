@@ -14,26 +14,26 @@ int ic,id;
 int bead_index,sup_index;
 int id_sup;
 FILE *update_sl;
-//update_sl=fopen("update.dat","w");
+
 for (ic=0;ic<n_ch;ic++) num_SL[ic]=0;
 for (j=0;j<zzz;j++) {
-ic=sl[j].chainj;
-num_SL[ic]=num_SL[ic]+1;
+	ic=sl[j].chainj;
+	num_SL[ic]=num_SL[ic]+1;
 }
 
 
 /*Update sliplink coordinates */
-        for (j=0;j<zzz;j++) {
-        ic=sl[j].chainj;
-        txjj=(int) (aint(sl[j].xj));
-        sl[j].truncxj=txjj;
-	id=sl[j].id_left_bead;
-        bead_index = g_bead_index[id];
-	id_sup= bead[bead_index].id_sup;
-	sup_index = g_bead_index[id_sup];
-                for (k=0;k<3;k++) {
+for (j=0;j<zzz;j++) {
+    ic=sl[j].chainj;
+    txjj=(int) (aint(sl[j].xj));
+    sl[j].truncxj=txjj;
+    id=sl[j].id_left_bead;
+    bead_index = g_bead_index[id];
+    id_sup= bead[bead_index].id_sup;
+    sup_index = g_bead_index[id_sup];
+    for (k=0;k<3;k++) {
         sl[j].XYZsj[k]=bead[bead_index].XYZ[k]+(sl[j].xj-(double) (sl[j].truncxj))*(bead[sup_index].XYZ[k]-bead[bead_index].XYZ[k]);
         }
 }
-//fclose(update_sl);
+
 }
