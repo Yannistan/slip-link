@@ -21,7 +21,7 @@ FILE *slcoorfile,*slidfile;
 
 /* Initialisation of SLIPLINKS  */
 sigma3=(sqrt(Ns)*b)/sqrt(3.0);
-//slcoorfile=fopen("slcoor.dat","w");
+
 for (m=0;m<n_ch;m++) num_SL[m]=0;
 
 /* Initial construction of SLs */
@@ -50,19 +50,19 @@ for (j=0;j<zzz/2;j++) {
    sl[q].truncxj = bead[bead_index].index_in_chain;
    sl[q].xj = (double) (sl[q].truncxj)+frac;
    
-	frac=sl[q].xj-(double) (sl[q].truncxj);
-   	for (k=0;k<3;k++) {
+   frac=sl[q].xj-(double) (sl[q].truncxj);
+   for (k=0;k<3;k++) {
         sl[q].XYZsj[k] = bead[bead_index].XYZ[k] + frac * ( bead[sup_index].XYZ[k] - bead[bead_index].XYZ[k] );
 	
-        }
-   	for (k=0;k<3;k++) {
-                        w1=ran1(in_ran1);
-                        w2=ran1(in_ran1);
-                        lw1=log(w1);
-                        du1=sqrt(-2.0*lw1);
-                        u1=du1*cos(2.0*M_PI*w2);
-                        sl[q].XYZaj[k]=sl[q].XYZsj[k]+u1*sigma3;
-        }
+   }
+   for (k=0;k<3;k++) {
+        w1=ran1(in_ran1);
+        w2=ran1(in_ran1);
+        lw1=log(w1);
+        du1=sqrt(-2.0*lw1);
+        u1=du1*cos(2.0*M_PI*w2);
+        sl[q].XYZaj[k]=sl[q].XYZsj[k]+u1*sigma3;
+   }
 
    do
    {
@@ -70,39 +70,39 @@ for (j=0;j<zzz/2;j++) {
    }
    while( bead[ g_bead_index[idjj]].terminal==-1 );
 
-    bead_index = g_bead_index[idjj];
-    id_sup = bead[bead_index].id_sup;
-    sup_index = g_bead_index[id_sup];
+   bead_index = g_bead_index[idjj];
+   id_sup = bead[bead_index].id_sup;
+   sup_index = g_bead_index[id_sup];
    sl[q-1].id_left_bead=idjj;
    nnc=bead[bead_index].id_ch;
    sl[q-1].chainj=nnc;
    num_SL[nnc]++;
    sl[q-1].truncxj=bead[bead_index].index_in_chain;
    sl[q-1].xj=(double) (sl[q-1].truncxj)+frac;
-	frac=sl[q-1].xj-(double) (sl[q-1].truncxj);
-   	for (k=0;k<3;k++) {
+   frac=sl[q-1].xj-(double) (sl[q-1].truncxj);
+   for (k=0;k<3;k++) {
         sl[q-1].XYZsj[k] = bead[bead_index].XYZ[k]+ frac*(bead[sup_index].XYZ[k]-bead[bead_index].XYZ[k]);
 
-        }
-   	for (k=0;k<3;k++) {
-                        w1=ran1(in_ran1);
-                        w2=ran1(in_ran1);
-                        lw1=log(w1);
-                        du1=sqrt(-2.0*lw1);
-                        u1=du1*cos(2.0*M_PI*w2);
+   }
+   for (k=0;k<3;k++) {
+        w1=ran1(in_ran1);
+        w2=ran1(in_ran1);
+        lw1=log(w1);
+        du1=sqrt(-2.0*lw1);
+        u1=du1*cos(2.0*M_PI*w2);
 
-                        sl[q-1].XYZaj[k]=sl[q-1].XYZsj[k]+u1*sigma3;
-        }
+        sl[q-1].XYZaj[k]=sl[q-1].XYZsj[k]+u1*sigma3;
+  }
 
 }
         for (nc=0;nc<n_ch;nc++) num_SL[nc]=0;
 
         for (j=0;j<zzz;j++) {
-        nc=sl[j].chainj;
-        num_SL[nc]=num_SL[nc]+1;
+        	nc=sl[j].chainj;
+        	num_SL[nc]=num_SL[nc]+1;
         }
         for (j=0;j<zzz;j++) {
-        nc=sl[j].chainj;
+        	nc=sl[j].chainj;
         }
 }
 
